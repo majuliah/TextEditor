@@ -8,7 +8,7 @@ namespace TextEditor
     {
         static void Main(string[] args)
         {
-            
+            Menu();
         }
 
         static void Menu()
@@ -32,7 +32,19 @@ namespace TextEditor
 
         static void Open()
         {
+            Clear();
+            WriteLine($"Enter the path of the file you want to open :)");
+            var path = ReadLine();
+
+            using (var file = new StreamReader(path))
+            {
+                string readingFile = file.ReadToEnd();
+                WriteLine(readingFile);
+            }
             
+            Clear();
+            ReadLine();
+            Menu();
         }
 
         static void Edit()
@@ -47,11 +59,9 @@ namespace TextEditor
             {
                 editor += ReadLine();
                 editor += Environment.NewLine;
-            } while (ReadKey().Key !=  ConsoleKey.Escape);
+            } while (ReadKey().Key !=  ConsoleKey.End);
             
-            Write(editor);
-            
-            
+            Save(editor);
         }
 
         static void Save(string text)
@@ -65,11 +75,9 @@ namespace TextEditor
                 file.Write(text);
             }
             
-            
-            
-            
-            
-            
+            WriteLine($"File on path {path} saved with success");
+            Clear();
+            Menu();
         }
     }
 }
